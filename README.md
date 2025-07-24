@@ -1,4 +1,3 @@
-````markdown
 # ⚡ Functions Runtime
 
 A *drop‑in* HTTP gateway that turns every `.ts` or `.js` file in a **functions/**

@@ -1,10 +1,10 @@
 {
   "name": "functions-runtime",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "esbuild src/server.ts --bundle --platform=node --target=node20 --outfile=dist/server.js",
+    "build": "esbuild src/server.ts --bundle --platform=node --target=node20 --format=cjs --external:@swc-node/register --outfile=dist/server.js",
     "start": "node -r @swc-node/register/register dist/server.js"
   },
   "dependencies": {

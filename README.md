@@ -31,7 +31,7 @@ docker run -p 9010:9010 \
   -e JWKS_URL=https://keycloak.example.com/realms/demo/protocol/openid-connect/certs \
   -e JWT_ISSUER=https://keycloak.example.com/realms/demo \
   -v $(pwd)/functions:/functions \
-  appria/functions-runtime:latest
+  ghcr.io/appritechnologies/functions-runtime:latest
 ````
 
 * Create a `functions/hello.ts` file:
@@ -88,7 +88,7 @@ type Handler = (ctx: {
 2. **Production‑grade (child image):**
 
    ```dockerfile
-   FROM appria/functions-runtime:latest
+   FROM ghcr.io/appritechnologies/functions-runtime:latest
    WORKDIR /functions
    COPY functions/package.json .
    RUN npm ci --omit=dev
@@ -129,7 +129,7 @@ npm run dev
 ```yaml
 services:
   functions:
-    image: appria/functions-runtime:latest
+    image: ghcr.io/appritechnologies/functions-runtime:latest
     environment:
       JWKS_URL:  https://keycloak.example.com/realms/demo/protocol/openid-connect/certs
       JWT_ISSUER: https://keycloak.example.com/realms/demo

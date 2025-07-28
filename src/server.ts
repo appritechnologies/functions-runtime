@@ -44,6 +44,13 @@ declare module 'fastify' {
 
 // mount each handler found in FUNCTIONS_DIR
 async function mountRoutes() {
+  // Ensure @swc-node/register is loaded for TypeScript compilation
+  try {
+    require('@swc-node/register');
+  } catch (e) {
+    console.warn('Failed to load @swc-node/register:', e.message);
+  }
+
   const pattern = '**/*.{ts,js,mjs,cjs}';
   const files = await fg(pattern, {
     cwd: FUNCTIONS_DIR,
@@ -59,7 +66,18 @@ async function mountRoutes() {
       .join('/');
 
     const route = `/functions/${rel}`;
-    const mod = await import(file);
+    
+    // Use require for TypeScript files since @swc-node/register only works with require()
+    let mod;
+    if (file.endsWith('.ts')) {
+      // Clear require cache for hot-reload capability
+      delete require.cache[require.resolve(file)];
+      mod = require(file);
+    } else {
+      // Use dynamic import for JS files
+      mod = await import(file);
+    }
+    
     const handler =
       typeof mod.default === 'function'
         ? mod.default
